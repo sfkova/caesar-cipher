@@ -4,6 +4,7 @@ import com.javarush.caesar.exception.CipherException;
 
 import java.util.HashMap;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class Cipher {
@@ -20,7 +21,7 @@ public class Cipher {
             IndexByChar.put(alphabet[i], i);
         }
         StringBuilder result = new StringBuilder();
-        for (char c : text.toCharArray()) {
+        for (char c : text.toLowerCase().toCharArray()) {
             Integer index = IndexByChar.get(c);
             if (index == null) {
                 result.append(c);

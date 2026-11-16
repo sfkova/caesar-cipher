@@ -20,8 +20,6 @@ public class Validator {
                 }
         }
             return true;
-        // TODO ключ допустим от 0 до alphabet.length - 1
-        //  либо любой ключ приводим к этому диапазону остатком от деления
     }
 
     public boolean isFileExists(String filePath) throws  CipherException {
@@ -42,6 +40,5 @@ public class Validator {
         }
         return true;
     }
-        // TODO проверить, что путь существует и ведет к файлу (папка не подходит)
 }
 

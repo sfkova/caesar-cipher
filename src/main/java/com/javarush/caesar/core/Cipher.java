@@ -9,19 +9,19 @@ import java.util.Map;
 public class Cipher {
 
     private final char[] alphabet;
-    private final Map<Character, Integer> IndexByChar = new HashMap<>();
+    private final Map<Character, Integer> indexByChar = new HashMap<>();
 
     public Cipher(char[] alphabet) {
         this.alphabet = alphabet;
         for (int i = 0; i < alphabet.length; i++) {
-            IndexByChar.put(alphabet[i], i);
+            indexByChar.put(alphabet[i], i);
         }
     }
 
     public String encrypt(String text, int shift) {
         StringBuilder result = new StringBuilder();
         for (char c : text.toLowerCase().toCharArray()) {
-            Integer index = IndexByChar.get(c);
+            Integer index = indexByChar.get(c);
             if (index == null) {
                 result.append(c);
             } else {
@@ -34,7 +34,7 @@ public class Cipher {
     public String decrypt(String encryptedText, int shift) throws CipherException {
         StringBuilder result = new StringBuilder();
         for (char c : encryptedText.toCharArray()) {
-            Integer index = IndexByChar.get(c);
+            Integer index = indexByChar.get(c);
             if (index == null) {
                 throw new CipherException("Символ '" + c + "' отсутствует в алфавите");
             }

@@ -6,6 +6,8 @@ import com.javarush.caesar.exception.CipherException;
 import com.javarush.caesar.service.FileManager;
 import com.javarush.caesar.service.Validator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainApp {
@@ -64,21 +66,66 @@ public class MainApp {
     }
 
     private void encryptFile() throws CipherException {
-        // TODO спросить исходный файл, файл для результата и ключ
-        //  проверить их через validator, прочитать текст через fileManager,
-        //  зашифровать через cipher и записать результат
-        System.out.println("Режим пока не реализован");
+        String source = askSourcePath();
+        String target = askTargetPath();
+        int key = askKey();
+
+        List<String> result = new ArrayList<>();
+        for (String line : fileManager.readFile(source)) {
+            result.add(cipher.encrypt(line, key));
+        }
+        fileManager.writeFile(result, source, target);
+        System.out.println("Готово. Результат записан в " + target);
     }
 
     private void decryptFile() throws CipherException {
-        // TODO то же, что в encryptFile, только расшифровка
-        System.out.println("Режим пока не реализован");
+        String source = askSourcePath();
+        String target = askTargetPath();
+        int key = askKey();
+
+        List<String> result = new ArrayList<>();
+        for (String line : fileManager.readFile(source)) {
+            result.add(cipher.decrypt(line, key));
+        }
+        fileManager.writeFile(result, source, target);
+        System.out.println("Готово. Результат записан в " + target);
     }
 
     private void bruteForceFile() throws CipherException {
-        // TODO спросить зашифрованный файл и файл для результата,
-        //  подобрать ключ через bruteForce и записать расшифрованный текст
-        System.out.println("Режим пока не реализован");
+        String source = askSourcePath();
+        String target = askTargetPath();
+
+        String text = String.join(" ", fileManager.readFile(source));
+        String decrypted = bruteForce.decryptByBruteForce(text, ALPHABET);
+
+        fileManager.writeFile(List.of(decrypted), source, target);
+        System.out.println("Готово. Результат записан в " + target);
+    }
+
+    private String askSourcePath() throws CipherException {
+        String path = ask("Введите путь к исходному файлу: ");
+        validator.isFileExists(path);
+        return path;
+    }
+
+    private String askTargetPath() throws CipherException {
+        String path = ask("Введите путь к файлу для результата: ");
+        if (path.isEmpty()) {
+            throw new CipherException("Путь к файлу результата не указан");
+        }
+        return path;
+    }
+
+    private int askKey() throws CipherException {
+        String input = ask("Введите ключ (0 - " + (ALPHABET.length - 1) + "): ");
+        int key;
+        try {
+            key = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new CipherException("Ключ должен быть целым числом", e);
+        }
+        validator.isValidKey(key, ALPHABET);
+        return key;
     }
 
     private String ask(String prompt) {

@@ -15,7 +15,7 @@ public class BruteForce {
         String bestText = null;
         int bestScore = Integer.MIN_VALUE;
 
-        for (int key = 1; key < alphabet.length; key++) {
+        for (int key = 0; key < alphabet.length; key++) {
             String candidate;
             try {
                 candidate = cipher.decrypt(encryptedText, key);

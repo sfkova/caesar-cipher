@@ -95,10 +95,15 @@ public class MainApp {
         String source = askSourcePath();
         String target = askTargetPath();
 
-        String text = String.join(" ", fileManager.readFile(source));
-        String decrypted = bruteForce.decryptByBruteForce(text, ALPHABET);
+        List<String> lines = fileManager.readFile(source);
+        int key = bruteForce.decryptByBruteForce(lines, ALPHABET);
 
-        fileManager.writeFile(List.of(decrypted), source, target);
+        List<String> result = new ArrayList<>();
+        for (String line : lines) {
+            result.add(cipher.decrypt(line, key));
+        }
+        fileManager.writeFile(result, source, target);
+        System.out.println("Найден ключ: " + key);
         System.out.println("Готово. Результат записан в " + target);
     }
 

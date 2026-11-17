@@ -16,7 +16,7 @@ import java.util.List;
 
 public class FileManager {
 
-    private static final String BOM = "";
+    private static final String BOM = "\\uFEFF";
 
     public List<String> readFile(String filePath) throws CipherException {
         Path path = Paths.get(filePath);

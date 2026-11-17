@@ -4,7 +4,6 @@ import com.javarush.caesar.exception.CipherException;
 
 import java.util.HashMap;
 
-import java.util.Locale;
 import java.util.Map;
 
 public class Cipher {
@@ -14,12 +13,12 @@ public class Cipher {
 
     public Cipher(char[] alphabet) {
         this.alphabet = alphabet;
-    }
-
-    public String encrypt(String text, int shift) {
         for (int i = 0; i < alphabet.length; i++) {
             IndexByChar.put(alphabet[i], i);
         }
+    }
+
+    public String encrypt(String text, int shift) {
         StringBuilder result = new StringBuilder();
         for (char c : text.toLowerCase().toCharArray()) {
             Integer index = IndexByChar.get(c);

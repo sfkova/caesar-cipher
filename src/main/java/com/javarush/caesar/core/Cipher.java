@@ -4,6 +4,7 @@ import com.javarush.caesar.exception.CipherException;
 
 import java.util.HashMap;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class Cipher {
@@ -23,17 +24,16 @@ public class Cipher {
         for (char c : text.toLowerCase().toCharArray()) {
             Integer index = indexByChar.get(c);
             if (index == null) {
-                result.append(c);
-            } else {
-                result.append(alphabet[(index + shift) % alphabet.length]);
+                continue;
             }
+                result.append(alphabet[(index + shift) % alphabet.length]);
         }
         return result.toString();
     }
 
     public String decrypt(String encryptedText, int shift) throws CipherException {
         StringBuilder result = new StringBuilder();
-        for (char c : encryptedText.toCharArray()) {
+        for (char c : encryptedText.toLowerCase().toCharArray()) {
             Integer index = indexByChar.get(c);
             if (index == null) {
                 throw new CipherException("Символ '" + c + "' отсутствует в алфавите");
